@@ -1,0 +1,17 @@
+import { StationConfig } from '../types';
+
+export const STATION: StationConfig = {
+  callsign: 'WAUG / W250AZ',
+  frequency: '97.9',
+  name: 'HOT 97.9',
+  tagline: "The Triangle's #1 for Hip-Hop & R&B",
+  streamUrl: 'https://icecast.omroep.nl/funx-hiphop-bb-mp3',
+  contact: {
+    phone: '919-979-9799',
+    sms: '919-979-9799',
+  },
+  socials: {
+    instagram: '@hot979nc',
+    twitter: '@hot979nc',
+  },
+};
