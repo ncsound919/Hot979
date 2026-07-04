@@ -1,0 +1,25 @@
+diff --git a/node_modules/expo-status-bar/build/index.js b/node_modules/expo-status-bar/build/index.js
+new file mode 100644
+index 0000000..0bf38ad
+--- /dev/null
++++ b/node_modules/expo-status-bar/build/index.js
+@@ -0,0 +1,18 @@
++const React = require("react");
++const { View } = require("react-native");
++
++function StatusBar(props) { return null; }
++function setStatusBarStyle() {}
++function setStatusBarHidden() {}
++function setStatusBarBackgroundColor() {}
++function setStatusBarNetworkActivityIndicatorVisible() {}
++function setStatusBarTranslucent() {}
++
++module.exports = {
++  StatusBar,
++  setStatusBarStyle,
++  setStatusBarHidden,
++  setStatusBarBackgroundColor,
++  setStatusBarNetworkActivityIndicatorVisible,
++  setStatusBarTranslucent,
++};
+\ No newline at end of file

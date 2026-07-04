@@ -1,0 +1,1001 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LCDScreen matches snapshot when idle 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#0a1a0a",
+      "borderColor": "#222",
+      "borderRadius": 4,
+      "borderWidth": 2,
+      "minHeight": 140,
+      "overflow": "hidden",
+      "position": "relative",
+    }
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      {
+        "backgroundColor": "transparent",
+        "bottom": 0,
+        "left": 0,
+        "opacity": 0.08,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  />
+  <View
+    style={
+      {
+        "padding": 10,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "baseline",
+          "flexDirection": "row",
+          "gap": 2,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "#39ff14",
+            "fontFamily": "monospace",
+            "fontSize": 48,
+            "fontWeight": "900",
+            "letterSpacing": -2,
+            "textShadowColor": "#39ff14",
+            "textShadowOffset": {
+              "height": 0,
+              "width": 0,
+            },
+            "textShadowRadius": 8,
+          }
+        }
+      >
+        97.9
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#1a6b1a",
+            "fontFamily": "monospace",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "letterSpacing": 2,
+          }
+        }
+      >
+        FM
+      </Text>
+    </View>
+    <Text
+      style={
+        {
+          "color": "#1a6b1a",
+          "fontFamily": "monospace",
+          "fontSize": 10,
+          "fontWeight": "700",
+          "letterSpacing": 3,
+          "marginTop": -2,
+        }
+      }
+    >
+      WAUG / W250AZ
+    </Text>
+    <Text
+      numberOfLines={1}
+      style={
+        {
+          "color": "#1a6b1a",
+          "fontFamily": "monospace",
+          "fontSize": 8,
+          "letterSpacing": 1,
+          "marginTop": 2,
+        }
+      }
+    >
+      The Triangle's #1 for Hip-Hop & R&B
+    </Text>
+    <View
+      style={
+        {
+          "backgroundColor": "#39ff14",
+          "height": 1,
+          "marginVertical": 6,
+          "opacity": 0.3,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#1a6b1a",
+              "fontFamily": "monospace",
+              "fontSize": 9,
+              "fontWeight": "700",
+              "letterSpacing": 2,
+            },
+            false,
+          ]
+        }
+      >
+        READY
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#1a6b1a",
+            "fontFamily": "monospace",
+            "fontSize": 8,
+          }
+        }
+      >
+        128K AAC
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "height": 20,
+          "marginTop": 6,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "flex-end",
+            "flexDirection": "row",
+            "gap": 2,
+            "height": 20,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`LCDScreen matches snapshot when playing 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#0a1a0a",
+      "borderColor": "#222",
+      "borderRadius": 4,
+      "borderWidth": 2,
+      "minHeight": 140,
+      "overflow": "hidden",
+      "position": "relative",
+    }
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      {
+        "backgroundColor": "transparent",
+        "bottom": 0,
+        "left": 0,
+        "opacity": 0.08,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  />
+  <View
+    style={
+      {
+        "padding": 10,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "baseline",
+          "flexDirection": "row",
+          "gap": 2,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "#39ff14",
+            "fontFamily": "monospace",
+            "fontSize": 48,
+            "fontWeight": "900",
+            "letterSpacing": -2,
+            "textShadowColor": "#39ff14",
+            "textShadowOffset": {
+              "height": 0,
+              "width": 0,
+            },
+            "textShadowRadius": 8,
+          }
+        }
+      >
+        97.9
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#1a6b1a",
+            "fontFamily": "monospace",
+            "fontSize": 14,
+            "fontWeight": "700",
+            "letterSpacing": 2,
+          }
+        }
+      >
+        FM
+      </Text>
+    </View>
+    <Text
+      style={
+        {
+          "color": "#1a6b1a",
+          "fontFamily": "monospace",
+          "fontSize": 10,
+          "fontWeight": "700",
+          "letterSpacing": 3,
+          "marginTop": -2,
+        }
+      }
+    >
+      WAUG / W250AZ
+    </Text>
+    <Text
+      numberOfLines={1}
+      style={
+        {
+          "color": "#1a6b1a",
+          "fontFamily": "monospace",
+          "fontSize": 8,
+          "letterSpacing": 1,
+          "marginTop": 2,
+        }
+      }
+    >
+      The Triangle's #1 for Hip-Hop & R&B
+    </Text>
+    <View
+      style={
+        {
+          "backgroundColor": "#39ff14",
+          "height": 1,
+          "marginVertical": 6,
+          "opacity": 0.3,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#1a6b1a",
+              "fontFamily": "monospace",
+              "fontSize": 9,
+              "fontWeight": "700",
+              "letterSpacing": 2,
+            },
+            {
+              "color": "#39ff14",
+              "textShadowColor": "#39ff14",
+              "textShadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "textShadowRadius": 6,
+            },
+          ]
+        }
+      >
+        PLAYING
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#1a6b1a",
+            "fontFamily": "monospace",
+            "fontSize": 8,
+          }
+        }
+      >
+        128K AAC
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "height": 20,
+          "marginTop": 6,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "flex-end",
+            "flexDirection": "row",
+            "gap": 2,
+            "height": 20,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#1a6b1a",
+                "borderRadius": 1,
+                "flex": 1,
+              },
+              {
+                "height": 4,
+              },
+              false,
+              false,
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;

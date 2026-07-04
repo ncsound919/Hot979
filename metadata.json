@@ -1,0 +1,8 @@
+{
+  "name": "Hot 97.9 Radio Player",
+  "description": "Streaming radio app for Hot 97.9 with a classic MPC-inspired interface, DJ schedules, and Triangle area events.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
