@@ -1,12 +1,17 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { STATION } from '@shared/content/station';
 
 interface LCDScreenProps {
   isPlaying: boolean;
   currentView: 'player' | 'news';
   volume: number;
+  status?: string;
 }
 
-export default function LCDScreen({ isPlaying, currentView, volume }: LCDScreenProps) {
+export default function LCDScreen({ isPlaying, currentView, volume, status }: LCDScreenProps) {
+  // Derive a human-readable marquee label from STATION config
+  const marqueeLabel = `${STATION.name} - ${STATION.tagline.toUpperCase()}`;
+
   return (
     <div className="flex flex-col space-y-4 h-full text-white relative">
       {/* Subtle scanline / glass overlay for LCD feel */}
@@ -37,96 +42,73 @@ export default function LCDScreen({ isPlaying, currentView, volume }: LCDScreenP
             transition={{ duration: 0.2 }}
             className={isPlaying ? 'text-[#06D6A0] drop-shadow-[0_0_6px_rgba(6,214,160,0.5)]' : 'opacity-30'}
           >
-            {isPlaying ? '▶ PLAYING' : '■ STOPPED'}
+            {isPlaying ? '\u25B6 PLAYING' : '\u25A0 STOPPED'}
           </motion.span>
           <span className="hidden sm:inline tabular-nums">VOL: {Math.round(volume * 100)}%</span>
         </div>
       </div>
 
-      <div className="flex-grow flex flex-col justify-center py-4 relative overflow-hidden">
-        <AnimatePresence mode="wait">
-          {currentView === 'player' && (
-            <motion.div
-              key="player"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="text-left flex flex-col items-start w-full"
-            >
-              <div className="whitespace-nowrap w-full relative overflow-hidden">
-                <motion.div
-                  animate={{ x: [0, -600, 0] }}
-                  transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
-                  className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-none text-white inline-block drop-shadow-[0_0_18px_rgba(230,57,70,0.25)]"
-                >
-                  HOT 97.9 - THE TRIANGLE'S #1 FOR HIP HOP
-                </motion.div>
-              </div>
+      {currentView === 'player' && (
+        <AnimatePresence>
+          <motion.div
+            key="player-display"
+            className="flex-1 flex flex-col items-center justify-center space-y-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* Station name + tagline pulled from STATION config */}
+            <div className="text-center">
+              <p className="font-mono text-xs tracking-[0.4em] text-white/40 uppercase">
+                {STATION.callsign}
+              </p>
+              <p className="font-mono font-bold text-sm sm:text-base tracking-widest text-white uppercase">
+                {STATION.name}
+              </p>
+              <p className="font-mono text-[9px] sm:text-[10px] tracking-[0.25em] text-white/50 uppercase mt-1">
+                {STATION.tagline.toUpperCase()}
+              </p>
+            </div>
 
-              <AnimatePresence>
-                {isPlaying && (
+            {isPlaying && (
+              <div className="flex gap-[3px] items-end h-6">
+                {[...Array(16)].map((_, i) => (
                   <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 96 }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.4, ease: 'easeOut' }}
-                    className="mt-8 flex items-end space-x-1 w-full overflow-hidden"
-                  >
-                    {[...Array(16)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className={`w-2 sm:w-3 rounded-t ${
-                          i % 4 === 0 ? 'bg-[#FFD166]' : i % 3 === 0 ? 'bg-white/20' : 'bg-[#E63946]'
-                        } shadow-[0_0_8px_rgba(255,255,255,0.15)]`}
-                        animate={{ height: ['20%', `${Math.random() * 80 + 20}%`, '20%'] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 0.5 + Math.random() * 0.5,
-                          ease: 'easeInOut',
-                          type: 'tween',
-                        }}
-                      />
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )}
-
-          {currentView === 'news' && (
-            <motion.div
-              key="news"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="text-left flex flex-col justify-center h-full"
-            >
-              <h2 className="text-3xl md:text-5xl font-black mb-2 text-[#9D4EDD] drop-shadow-[0_0_16px_rgba(157,78,221,0.4)]">
-                THE WIRE
-              </h2>
-              <p className="text-sm text-white/50 font-mono uppercase tracking-wide">Hip hop &amp; culture news...</p>
-            </motion.div>
-          )}
+                    key={i}
+                    className="w-1 bg-[#06D6A0] rounded-full"
+                    animate={{ height: ['4px', `${8 + Math.random() * 16}px`, '4px'] }}
+                    transition={{
+                      duration: 0.4 + Math.random() * 0.4,
+                      repeat: Infinity,
+                      delay: i * 0.05,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </motion.div>
         </AnimatePresence>
-      </div>
+      )}
 
-      {/* Status Bar */}
-      <div className="mt-auto flex items-center space-x-2 sm:space-x-4 relative z-10">
-        <div className="px-2 py-1 border border-white/15 rounded-md text-[10px] font-mono text-white/60 hidden sm:block bg-white/[0.02]">
-          128KBPS AAC
+      {currentView === 'news' && (
+        <div className="flex-1 flex flex-col items-center justify-center space-y-2">
+          <p className="font-mono text-xs tracking-[0.4em] text-white/40 uppercase">THE WIRE</p>
+          <p className="font-mono font-bold text-sm tracking-widest text-white uppercase">HIP HOP NEWS</p>
+          <p className="font-mono text-[10px] text-white/40">Hip hop &amp; culture news...</p>
         </div>
-        <div className="px-2 py-1 border border-white/15 rounded-md text-[10px] font-mono text-white/60 bg-white/[0.02]">
-          DIGITALOCEAN
-        </div>
-        <motion.div
-          animate={{ opacity: [1, 0.6, 1] }}
-          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-          className="px-2 py-1 border border-[#06D6A0] text-[#06D6A0] rounded-md text-[10px] font-mono bg-[#06D6A0]/10 shadow-[0_0_10px_rgba(6,214,160,0.25)]"
+      )}
+
+      {/* Status Bar — badges are conditional on actual stream state */}
+      <div className="flex justify-between items-center text-[9px] font-mono text-white/30 border-t border-white/10 pt-2">
+        <span>128KBPS AAC</span>
+        <span>{isPlaying ? 'STREAMING' : 'STANDBY'}</span>
+        <motion.span
+          className={isPlaying
+            ? 'text-[#06D6A0] drop-shadow-[0_0_4px_rgba(6,214,160,0.6)]'
+            : 'text-white/20'}
         >
-          STABLE
-        </motion.div>
+          {isPlaying ? 'LIVE' : 'OFFLINE'}
+        </motion.span>
       </div>
     </div>
   );
