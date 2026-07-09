@@ -89,7 +89,7 @@ export default function NewsView() {
             <iframe 
               src={`/api/proxy?url=${encodeURIComponent(readingUrl)}`} 
               className="w-full h-full border-none"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+              sandbox="allow-scripts allow-forms allow-popups"
               title="In-App Browser"
             />
           </div>
