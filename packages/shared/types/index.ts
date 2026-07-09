@@ -5,6 +5,7 @@ export interface StationConfig {
   tagline: string;
   streamUrl: string;
   logoUrl?: string;
+    promoMessage?: string;
   contact: {
     phone: string;
     sms: string;
