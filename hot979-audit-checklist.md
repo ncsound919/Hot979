@@ -1,98 +1,72 @@
-# Hot979 Mobile App Audit Checklist
+# HOT 97.9 Web App — Production Readiness Checklist
 
-## 1. Repository & Architecture
-- Confirm `apps/mobile` is the only source of mobile app code and does not import from `../../apps` or other app folders.
-- Verify `packages/shared` is used only via `@shared/*` imports (no deep relative paths).
-- Check that `apps/mobile/tsconfig.json`, `babel.config.js`, and `metro.config.js` all define a consistent `@shared` alias.
-- Ensure `packages/shared/content/station.ts` is the single source of truth for stream URL, callsign, frequency, and branding.
-- Validate that environment-specific logic (Android/iOS, Node-only code) does not live in `packages/shared`.
+> **Stack:** React + TypeScript (Vite) · Node.js/Express server · Monorepo (`apps/web`, `packages/shared`, `server`)
 
-## 2. Android Build & Native Layer
-- Open `apps/mobile/android/gradle/wrapper/gradle-wrapper.properties` and verify Gradle version matches React Native/Expo docs.
-- Check `apps/mobile/android/build.gradle` and `apps/mobile/android/app/build.gradle` for consistent `compileSdkVersion` and `targetSdkVersion`.
-- Document required `JAVA_HOME` and `GRADLE_USER_HOME` values for Windows builds in `apps/mobile/README.md`.
-- Confirm CMake and NDK versions used for `react-native-reanimated`, `react-native-track-player`, and `react-native-screens` are noted (and match their docs).
-- Verify project path guidance for Windows (short path like `C:` or `C:\hot979`, and long-path support if needed).
+---
 
-## 3. Streaming Logic
-- Review `apps/mobile/src/hooks/useStream.ts` for a clear state machine: idle, connecting, playing, error, reconnecting, stopped.
-- Ensure `useStream` handles:
-  - First connection to the stream.
-  - Manual pause/resume.
-  - Network errors and server-side failures.
-  - Retry/backoff behavior (no tight infinite loops).
-- Check that cleanup logic stops TrackPlayer, unsubscribes listeners, and resets state on unmount.
-- Confirm `apps/mobile/src/config/station.ts` and `apps/mobile/src/config/env.ts` only override stream URL via env variables (no hard-coded alternative URLs).
-- Verify that changing `packages/shared/content/station.ts` is sufficient to change the stream URL everywhere.
+## 1. Stream Configuration
+- [ ] Replace `streamUrl` placeholder in `packages/shared/content/station.ts` with your real Icecast/Azuracast/ShoutCast stream URL
+- [ ] Update the `<link rel="preconnect">` in `apps/web/index.html` with your actual stream domain
+- [ ] Confirm stream URL is accessible over HTTPS (HTTP streams are blocked by browsers on HTTPS pages)
+- [ ] Verify the stream produces audio in a browser tab before deploying
 
-## 4. Audio Playback & Services
-- Inspect `apps/mobile/track-player-service.ts` for correct handling of lock-screen events (play, pause, stop, seek if applicable).
-- Ensure playback service and React state stay in sync (no situations where TrackPlayer is playing but UI says paused, or vice versa).
-- Confirm background audio is enabled and correctly configured in Expo and Android manifests.
-- Verify that the app correctly handles:
-  - Loss of audio focus (e.g., incoming phone call).
-  - Bluetooth headset play/pause commands (if supported).
+## 2. Environment Variables
+- [ ] Create a `.env` file from `.env.example` on your server
+- [ ] Set `GNEWS_API_KEY`, `WORLDNEWS_API_KEY`, `NEWSAPI_KEY` with valid keys
+- [ ] Set `PORT` (default `3000`) and `NODE_ENV=production`
+- [ ] Confirm no API keys are committed to the repo (check `.gitignore` covers `.env`)
 
-## 5. UI Components (Boombox)
-- Examine `apps/mobile/src/components/MPCPlayer.tsx` to ensure it is the single orchestrator for the boombox UI and `useStream`.
-- Confirm `LCDScreen.tsx` displays:
-  - Station name and frequency from `StationConfig`.
-  - Clear status for "Connecting", "Playing", "Error", and "Reconnecting".
-  - Equalizer bars that reflect playback state (or are visually consistent with it).
-- Check `PadBank.tsx` wiring:
-  - Play/pause button triggers only one handler connected to `useStream`.
-  - Volume slider updates both TrackPlayer volume and the UI state.
-- Verify that UI test IDs (for Detox) are stable and documented (e.g., `testID="play-button"`, `testID="lcd-screen"`).
+## 3. Security
+- [ ] Confirm `isAllowedProxyUrl()` domain allowlist in `server/index.ts` includes all domains your news providers link to
+- [ ] Verify the iframe sandbox in `NewsView.tsx` does NOT have `allow-same-origin` + `allow-scripts` together (**fixed**)
+- [ ] Review CORS policy if serving front-end and API from different origins
+- [ ] Run `npm audit` and resolve any high/critical vulnerabilities
 
-## 6. Configuration & Environment
-- Compare `apps/mobile/.env.example` against `apps/mobile/src/config/env.ts` to ensure all required env vars are documented.
-- Verify `EXPO_PUBLIC_STREAM_URL` override works and falls back to `StationConfig` when unset.
-- Confirm there are no hard-coded URLs in components or hooks.
-- Ensure `packages/shared/types/index.ts` defines `StationConfig` clearly and is used everywhere station config is referenced.
+## 4. Content & Branding
+- [ ] Confirm `packages/shared/content/station.ts` values are correct: `callsign`, `frequency`, `name`, `tagline`, `contact`, `socials`
+- [ ] Add `promoMessage` string to station config for the footer marquee
+- [ ] Confirm `logoUrl` path (`/icons/icon-192.png`) exists in `apps/web/public/icons/`
+- [ ] Replace placeholder events in `packages/shared/content/events.ts` with real upcoming events
+- [ ] Replace placeholder DJs in `packages/shared/content/djs.ts` with real DJ roster
 
-## 7. Testing (Unit & Integration)
-- Run `npm test` in `apps/mobile` and verify all tests pass.
-- Check `apps/mobile/__tests__/useStream.test.ts`:
-  - All state transitions are covered.
-  - Error and retry paths are thoroughly tested.
-  - Cleanup behavior is verified.
-- Review component tests (`LCDScreen.test.tsx`, `PadBank.test.tsx`, `MPCPlayer.test.tsx`, `App.test.tsx`) for:
-  - Correct rendering of statuses and labels.
-  - Interaction tests for play/pause and volume.
-  - Snapshot tests that are meaningful (not brittle).
-- Inspect `apps/mobile/__tests__/station.test.ts` to ensure misconfigured `StationConfig` (missing URL, invalid frequency) fails fast.
-- Confirm `apps/mobile/__tests__/integration.test.tsx` mounts the full tree and exercises a realistic flow (splash → connect → play → pause → error → retry).
+## 5. PWA & Assets
+- [ ] Confirm `apps/web/public/icons/icon-192.png` and `icon-512.png` exist and use actual station branding
+- [ ] Confirm `apps/web/public/manifest.webmanifest` exists and has correct `name`, `short_name`, `icons`
+- [ ] Test "Add to Home Screen" on both iOS Safari and Android Chrome
+- [ ] Verify wake lock works on Android (prevents screen sleep during streaming)
+- [ ] Test Media Session controls show up in OS/lock screen on mobile
 
-## 8. End-to-End (Detox)
-- Follow `apps/mobile/E2E_SETUP.md` and ensure Detox configuration matches the current React Native and Android tooling.
-- Verify `apps/mobile/__e2e__/splash.test.ts`, `streaming.test.ts`, and `layout.test.ts`:
-  - Use stable test IDs.
-  - Reflect realistic user behavior (opening app, tapping play, seeing playback state).
-  - Include assertions for both success and failure cases.
-- Confirm E2E tests can run locally with an emulator or physical device.
-- Document any platform-specific quirks (e.g., emulator audio, Bluetooth) in `E2E_SETUP.md`.
+## 6. News Feed
+- [ ] Confirm `/api/news` returns articles in production (check API keys are set)
+- [ ] Verify server-side cache TTL (1 hour) matches client-side `localStorage` TTL (1 hour)
+- [ ] Add real hip-hop news domains to the proxy allowlist if GNews/WorldNews/TheNewsAPI returns domains not in the current list
+- [ ] Test "Read Full Article" iframe view loads correctly for at least 3 article sources
 
-## 9. Patch Management & Node.js v24
-- Check `apps/mobile/package.json` for:
-  - `patch-package` installed as a dev dependency.
-  - `"postinstall": "patch-package"` script configured.
-- Inspect `apps/mobile/patches/` for patch files covering:
-  - `react-native-track-player` Node v24 fixes.
-  - `expo-modules-core` CJS/entrypoint fixes.
-  - `expo`, `expo-status-bar`, `expo-keep-awake` v24 compatibility.
-- Ensure patches modify built runtime files (dist/build JS) rather than TypeScript-only source.
-- Verify `README.md` (or a dedicated `PATCHES.md`) documents why each patch exists and how to regenerate it.
+## 7. Rate Limiting & Reliability
+- [ ] Confirm rate limiter constants in `server/index.ts` are appropriate for your expected traffic (default: 30 req/min for news, 20 req/min for proxy)
+- [ ] Consider adding persistent caching (file or Redis) so server restarts don't clear the news cache
+- [ ] Add a `/api/health` endpoint ping to your uptime monitor
 
-## 10. Developer Experience & Onboarding
-- Review `apps/mobile/README.md` to confirm it includes:
-  - Node version requirements.
-  - Steps to install dependencies (including any `--legacy-peer-deps` flags).
-  - Commands to start Metro, run tests, build Android, and run Detox.
-  - Environment variable setup with reference to `.env.example`.
-- Make sure `apps/mobile/E2E_SETUP.md` stays in sync with actual Detox commands and Gradle/CMake versions.
-- Validate that a new developer can:
-  - Clone the repo.
-  - Install dependencies.
-  - Build the Android APK.
-  - Run Jest and Detox tests.
-  - Configure the stream URL and hear audio within a short, well-documented checklist.
+## 8. Deployment
+- [ ] Run `npm run build` in `apps/web` — confirm no TypeScript errors
+- [ ] Run the server with `NODE_ENV=production` and verify static files are served from `dist/`
+- [ ] Confirm your hosting platform (DigitalOcean, Railway, etc.) has all env vars set
+- [ ] Set up HTTPS — stream must be HTTPS; mixed-content errors will block audio
+- [ ] Add a process manager (PM2 or equivalent) with auto-restart on crash
+
+## 9. Cross-Browser & Device Testing
+- [ ] Chrome (desktop + Android)
+- [ ] Safari (macOS + iOS) — test autoplay restrictions
+- [ ] Firefox (desktop)
+- [ ] Test play/stop cycle at least 5 times — confirm no stale audio elements
+- [ ] Test reconnect logic by simulating a network dropout
+- [ ] Test the "Request" pad (tel: deep link) on a real mobile device
+
+## 10. Analytics & Monitoring
+- [ ] Add a listener count endpoint or integrate with your streaming host's stats API
+- [ ] Set up error tracking (Sentry or equivalent) for the Express server
+- [ ] Add client-side error reporting for playback failures
+
+---
+
+_Last updated by automated audit: July 2026_
