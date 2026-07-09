@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Volume2, VolumeX, Volume1, Radio, Play, Square, Newspaper, Mic } from 'lucide-react';
+import { STATION } from '@shared/content/station';
 
 interface PadBankProps {
   currentView: 'player' | 'news';
@@ -36,7 +37,7 @@ export default function PadBank({ currentView, onViewChange, isPlaying, onPlayTo
       id: 'request',
       label: 'Request',
       icon: Mic,
-      action: () => {},
+      action: () => { window.location.href = `tel:${STATION.contact.phone.replace(/[^0-9]/g, '')}`; },
       color: 'bg-[#118AB2]',
       textColor: 'text-[#118AB2]',
       shadow: 'shadow-[0_0_12px_rgba(17,138,178,0.6)]',
