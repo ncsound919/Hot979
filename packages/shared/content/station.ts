@@ -5,7 +5,10 @@ export const STATION: StationConfig = {
   frequency: '97.9',
   name: 'HOT 97.9',
   tagline: "The Triangle's #1 for Hip-Hop & R&B",
-  streamUrl: 'https://icecast.omroep.nl/funx-hiphop-bb-mp3',
+  // TODO: Replace with your actual stream URL from your streaming host (e.g. Azuracast, Icecast, etc.)
+  streamUrl: 'https://YOUR-STREAM-DOMAIN.example.com/hot979-stream',
+  logoUrl: '/icons/icon-192.png',
+  promoMessage: "The Triangle's #1 for Hip-Hop & R&B — HOT 97.9",
   contact: {
     phone: '919-979-9799',
     sms: '919-979-9799',
