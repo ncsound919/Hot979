@@ -9,6 +9,63 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// ---------------------------------------------------------------------------
+// Simple in-memory rate limiter (no external dep required)
+// ---------------------------------------------------------------------------
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX_NEWS = 30;       // requests per window for /api/news
+const RATE_LIMIT_MAX_PROXY = 20;      // requests per window for /api/proxy
+
+function checkRateLimit(ip: string, maxRequests: number): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// SSRF guard: only allow https:// URLs pointing to known article domains
+// ---------------------------------------------------------------------------
+const PROXY_ALLOWED_ORIGINS = new Set([
+  // Extend this list with the actual domains returned by your news providers
+  'apnews.com',
+  'bbc.com',
+  'bbc.co.uk',
+  'billboard.com',
+  'complex.com',
+  'essence.com',
+  'hotnewhiphop.com',
+  'npr.org',
+  'pitchfork.com',
+  'rollingstone.com',
+  'thesource.com',
+  'theguardian.com',
+  'variety.com',
+  'vibe.com',
+  'xxlmag.com',
+]);
+
+function isAllowedProxyUrl(raw: string): boolean {
+  try {
+    const parsed = new URL(raw);
+    if (parsed.protocol !== 'https:') return false;
+    // Strip leading 'www.' for comparison
+    const hostname = parsed.hostname.replace(/^www\./, '');
+    // Allow exact matches and subdomains of allowed origins
+    return [...PROXY_ALLOWED_ORIGINS].some(
+      (allowed) => hostname === allowed || hostname.endsWith('.' + allowed),
+    );
+  } catch {
+    return false;
+  }
+}
+
 interface Article {
   id: string;
   title: string;
@@ -23,6 +80,8 @@ async function startServer() {
   const app = express();
   const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
+  // Cache TTL aligned to client-side TTL (1 hour)
+  const ONE_HOUR = 3_600_000;
   let cachedNews: Article[] = [];
   let lastFetchTime = 0;
 
@@ -119,12 +178,16 @@ async function startServer() {
     res.json({ status: 'ok' });
   });
 
-  app.get('/api/news', async (_req, res) => {
-    const now = Date.now();
-    const twentyFourHours = 86400000;
+  app.get('/api/news', async (req, res) => {
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(ip + ':news', RATE_LIMIT_MAX_NEWS)) {
+      res.status(429).json({ articles: [], message: 'Too many requests. Please slow down.' });
+      return;
+    }
 
+    const now = Date.now();
     try {
-      if (now - lastFetchTime > twentyFourHours || cachedNews.length === 0) {
+      if (now - lastFetchTime > ONE_HOUR || cachedNews.length === 0) {
         cachedNews = await fetchNews();
         lastFetchTime = now;
       }
@@ -142,10 +205,23 @@ async function startServer() {
   });
 
   app.get('/api/proxy', async (req, res) => {
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(ip + ':proxy', RATE_LIMIT_MAX_PROXY)) {
+      res.status(429).send('Too many requests. Please slow down.');
+      return;
+    }
+
     try {
       const targetUrl = req.query.url as string | undefined;
+
       if (!targetUrl) {
         res.status(400).send('No URL provided');
+        return;
+      }
+
+      // SSRF guard: only allow https URLs from a pre-approved allowlist of article domains
+      if (!isAllowedProxyUrl(targetUrl)) {
+        res.status(403).send('URL not permitted by proxy allowlist');
         return;
       }
 
@@ -155,18 +231,14 @@ async function startServer() {
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         },
       });
-
       const html = await response.text();
-
-      const baseTag = `<base href="${targetUrl}">`;
+      const baseTag = `<base href="${targetUrl}" />`;
       let patchedHtml = html;
-
       if (patchedHtml.includes('<head>')) {
         patchedHtml = patchedHtml.replace('<head>', `<head>\n  ${baseTag}`);
       } else {
         patchedHtml = `<head>\n  ${baseTag}\n</head>\n` + patchedHtml;
       }
-
       res.send(patchedHtml);
     } catch (error) {
       console.error('Proxy error:', error);
